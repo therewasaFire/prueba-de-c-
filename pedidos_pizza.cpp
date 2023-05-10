@@ -15,6 +15,7 @@ struct pizza{
 struct cliente{
     char nombre[max];
 	struct pizza pedido;
+	int importepizzas;
     int importe;
 };
 
