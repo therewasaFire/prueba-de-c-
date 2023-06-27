@@ -153,6 +153,7 @@ int main(){
                 ordenarAlfabeticamente(c, n); 
                 cout <<"  COD\tNOMBRE\tDIRECCIÓN\tTELÉFONO\tN°CUENTA\tSALDO\n";
                 mostrar(c, n);
+		break;
         }
     }while(opc != 7);
     getch();
