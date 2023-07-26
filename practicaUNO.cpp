@@ -10,6 +10,7 @@ using namespace std;
 struct datcuentas{
     int numcuenta;
     int saldo;
+    int movimientos[max][max];
 };
 struct clientes{
     int cod;
@@ -20,59 +21,62 @@ struct clientes{
 };
 
 void menu(){
-    cout <<"\nBIENVENIDO AL BANCO";
-    cout <<"\n1. Ingresar datos.";
-    cout <<"\n2. Mostrar datos.";
-    cout <<"\n3. Retirar dinero.";
-    cout <<"\n4. Depositar dinero.";
-    cout <<"\n5. Ordena los nombres alfabéticamente.";
-    cout <<"\n7. Salir.";
-    cout <<"\nElija su opción: ";
+    cout <<"\n\t.:BIENVENIDO AL BANCO:.";
+    cout <<"\n\t1. Ingresar datos.";
+    cout <<"\n\t2. Mostrar datos.";
+    cout <<"\n\t3. Retirar dinero.";
+    cout <<"\n\t4. Depositar dinero.";
+    cout <<"\n\t5. Ordena los nombres alfabéticamente.";
+    cout <<"\n\t6. Ver movimientos.";
+    cout <<"\n\t0. Salir.";
+    cout <<"\n\tElija su opción: ";
 }
 void ingresar(struct clientes c[max], int x){
+    int mov = 0;
     for(int i=0; i<x; i++){
-        cout <<"\nIngrese el código del cliente: "; cin >>c[i].cod;
+        cout <<"\n\tCódigo ["<<i+1<<"]: "; cin >>c[i].cod;
         fflush(stdin);
-        cout <<"Ingrese el nombre del cliente: "; getline(cin, c[i].nom, '\n');
-        cout <<"Ingrese la dirección del cliente: "; getline(cin, c[i].dirc, '\n');
-        cout <<"Ingrese el teléfono del cliente ["<<i+1<<"]: "; cin >>c[i].telef;
-		cout <<"Ingrese el número de cuenta del cliente ["<<i+1<<"]: "; cin >>c[i].cuenta.numcuenta;
-		cout <<"Ingrese el monto de la cuenta del cliente ["<<i+1<<"]: "; cin >>c[i].cuenta.saldo;
+        cout <<"\tNombre ["<<i+1<<"]: "; getline(cin, c[i].nom, '\n');
+        cout <<"\tDirección ["<<i+1<<"]: "; getline(cin, c[i].dirc, '\n');
+        cout <<"\tTeléfono ["<<i+1<<"]: "; cin >>c[i].telef;
+		cout <<"\tNum. cuenta ["<<i+1<<"]: "; cin >>c[i].cuenta.numcuenta;
+		cout <<"\tMonto de cuenta ["<<i+1<<"]: "; cin >>c[i].cuenta.saldo;
+        c[i].cuenta.movimientos[i][mov] = c[i].cuenta.saldo;
     }
 }
 void mostrar(struct clientes c[max], int x){
     for(int i=0; i<x; i++){
-        cout <<"  "<<c[i].cod<<"\t"<<c[i].nom<<"\t"<<c[i].dirc<<"\t"<<c[i].telef<<"\t"<<c[i].cuenta.numcuenta<<"\t"<<c[i].cuenta.saldo<<endl;
+        cout <<"\t  "<<c[i].cod<<"\t"<<c[i].nom<<"\t"<<c[i].dirc<<"\t"<<c[i].telef<<"\t"<<c[i].cuenta.numcuenta<<"\t"<<c[i].cuenta.saldo<<endl;
     }
 }
 bool retirar(struct clientes c[max], int x, string nom){
     int retiro;
     for(int i=0; i<x; i++){
         if(nom == c[i].nom){
-            cout <<"Cliente encontrado.\n";
+            cout <<"\tCliente encontrado.\n";
             do{
-                cout <<"Ingrese monto de retiro: "; cin >>retiro;
+                cout <<"\tIngrese monto de retiro: "; cin >>retiro;
             }while(retiro > c[i].cuenta.saldo);
             c[i].cuenta.saldo = c[i].cuenta.saldo - retiro;
-            cout <<"Saldo actual: "<<c[i].cuenta.saldo<<endl;
+            cout <<"\n\tSaldo actual: "<<c[i].cuenta.saldo<<endl;
             return true;
         }
     }
-    cout <<"Cliente no encontrado.\n";
+    cout <<"\n\t\tCliente no encontrado.\n";
     return false;
 }
 bool depositar(struct clientes c[max], int x, string nom){
     int deposito;
     for(int i=0; i<x; i++){
         if(nom == c[i].nom){
-            cout <<"Cliente encontrado.\n";
-            cout <<"Ingrese monto de depósito: "; cin >>deposito;
+            cout <<"\tCliente encontrado.\n";
+            cout <<"\tIngrese monto de depósito: "; cin >>deposito;
             c[i].cuenta.saldo = c[i].cuenta.saldo + deposito;
-            cout <<"Saldo actual: "<<c[i].cuenta.saldo<<endl;
+            cout <<"\n\tSaldo actual: "<<c[i].cuenta.saldo<<endl;
             return true;
         }
     }
-    cout <<"Cliente no encontrado.\n";
+    cout <<"\n\t\tCliente no encontrado.\n";
     return false;
 }
 void ordenarAlfabeticamente(struct clientes c[max], int x) {
@@ -110,52 +114,58 @@ void ordenarAlfabeticamente(struct clientes c[max], int x) {
             }
         }
     }
-    cout << "Nombres ordenados alfabéticamente: \n";
+    cout << "\tNombres ordenados alfabéticamente: \n";
 }
 
-/*
-void movimientos(struct clientes c[max], int x, string nom){
-
+void verMovimientos(struct clientes c[max], int x, string nom){
+    for(int i=0; i<x; i++){
+        if(nom == c[i].nom){
+            cout <<"\n\t"<<c[i].cuenta.movimientos;
+        }
+    }
 }
-*/
 
 
 int main(){
     SetConsoleOutputCP(CP_UTF8); //para que se escriba "número" y no "n||mero"
-    system("cls");
     struct clientes c[max];
     int opc, n;
     string nom;
     do{
-        menu();
-        cin >>opc;
+        system("cls");
+        menu(); cin >>opc;
+        system("cls");
         switch(opc){
             case 1:
-                cout <<"Ingrese la cantidad de clientes: "; cin >>n;
-		        cout <<"Ingrese los datos de los clientes: \n"; ingresar(c, n);
-                break;
+                cout <<"\n\tIngrese la cantidad de clientes: "; cin >>n;
+		        cout <<"\tIngrese los datos de los clientes: \n"; ingresar(c, n);
+                getch(); break;
             case 2:
-                cout <<"  COD\tNOMBRE\tDIRECCIÓN\tTELÉFONO\tN°CUENTA\tSALDO\n";
+                cout <<"  \tCOD\tNOMBRE\tDIRECCIÓN\tTELÉFONO\tN°CUENTA\tSALDO\n";
                 mostrar(c, n);
-                break;
+                getch(); break;
             case 3:
-                cout <<"Ingrese el cliente a buscar: "; cin >>nom;
+                cout <<"\tIngrese el cliente a buscar: "; cin >>nom;
                 if(retirar(c, n, nom))
-                    cout <<"Saldo retirado.\n";
-                break;
+                    cout <<"\tSaldo retirado.\n";
+                getch(); break;
             case 4:
-                cout <<"Ingrese el cliente a buscar: "; cin >>nom;
+                cout <<"\tIngrese el cliente a buscar: "; cin >>nom;
                 if(depositar(c, n, nom))
-                    cout <<"Saldo depositado.\n";
-                break;
+                    cout <<"\tSaldo depositado.\n";
+                getch(); break;
             case 5:
-                cout <<"Ordenando nombres alfabéticamente...\n";
+                cout <<"\tOrdenando nombres alfabéticamente...\n";
                 ordenarAlfabeticamente(c, n); 
-                cout <<"  COD\tNOMBRE\tDIRECCIÓN\tTELÉFONO\tN°CUENTA\tSALDO\n";
+                cout <<"  \tCOD\tNOMBRE\tDIRECCIÓN\tTELÉFONO\tN°CUENTA\tSALDO\n";
                 mostrar(c, n);
-		break;
+                getch(); break;
+            case 6:
+                cout <<"\tIngrese el cliente a buscar: "; cin >>nom;
+                verMovimientos(c, n, nom);
+                getch(); break;
         }
-    }while(opc != 7);
+    }while(opc != 0);
     getch();
     return 0;
 }
