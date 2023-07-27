@@ -1,5 +1,4 @@
 //1° práctica EDA
-//me falta moviementos PIPIPI
 #include <iostream>
 #include <conio.h>
 #include <string.h>
